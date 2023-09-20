@@ -12,7 +12,7 @@
       "name": "MySQL local",
       "database": "abe",
       "username": "sqluser",
-      "password": "ninja123"
+      "password": "password"
     }
   ]
 }
