@@ -7,7 +7,7 @@ function ClearFields() {
 }
 
 function getWorkout() {
-  var e = document.getElementById("workoutType");
-  var value = e.value;
-  console.log(value);
+    selectElement = document.querySelector('workoutType');
+    output = selectElement.value;
+    document.querySelector('.output').textContent = output;
 }
