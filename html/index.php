@@ -6,7 +6,7 @@
     <meta name="keywords" content="HTML, CSS" />
     <meta name="description" content="..." />
     <title>Abraham Kwok</title>
-    <link rel="stylesheet" type="text/css" href="style.css" />
+    <link rel="stylesheet" type="text/css" href="main.css" />
   </head>
 
   <body>
@@ -20,8 +20,8 @@
     <div>
       <h2 class="Goals">Current Goals</h2>
       <p>
-        <li>Hit 275 lb Squat</li>
         <li>Dunk A Ball</li>
+        <li>Hit Plate On Overhead Press</li>
         <li>Hit Plate On Weighted Pull Ups</li>
         <li>Hit Plate On Weighted Dips</li>
       </p>
@@ -60,7 +60,7 @@
         <form action="index.php" method="post">
           <label for="selectOption">Select A Graph To Look At:</label>
           <select id="workoutType" name = "workoutType">
-            <option value="'squat'">Squat</option>
+            <option value="'squat'" selected = "selected">Squat</option>
             <option value="'dumbbell_bench'">Dumbbell Bench</option>
             <option value="'weighted_pullups'">Weighted Pull Ups</option>
           </select>
@@ -71,40 +71,78 @@
 
     <div class = "content">
       
-      <div id = "squatgraph" class = "data">
-        <?php
-          if ($_SERVER["REQUEST_METHOD"] === "POST") {
-            // Check if the selectedOption is set in the POST data
-            if (isset($_POST["workoutType"])) {
-              $exercise = $_POST["workoutType"];
-            } else {
-              $exercise = 'squat';
+      <div id = "graph" class = "data">
+        <div id = "sqlqueries">
+          <?php
+            if ($_SERVER["REQUEST_METHOD"] === "POST") {
+              // Check if the selectedOption is set in the POST data
+              if (isset($_POST["workoutType"])) {
+                $exercise = $_POST["workoutType"];
+              }
             }
-          }
-          
-          $link = mysqli_connect("localhost", "root", "");
-          mysqli_select_db($link, "Workout");
+            
+            $link = mysqli_connect("localhost", "root", "");
+            mysqli_select_db($link, "Workout");
 
-          $test = array();
-          $count = 0;
-          $res = mysqli_query($link, "SELECT * FROM workouts WHERE exercise = $exercise");
-          while ($row = mysqli_fetch_array($res))
-          {
-            $test[$count]["label"] = $row["date"];
-            $test[$count]["y"] = $row["weight"];
-            $count = $count + 1;
-          }
-        ?>
+            $weightQ = array();
+            $count = 0;
+            $res = mysqli_query($link, "SELECT * FROM workouts WHERE exercise = $exercise");
+            while ($row = mysqli_fetch_array($res))
+            {
+              $weightQ[$count]["label"] = $row["date"];
+              $weightQ[$count]["y"] = $row["weight"];
+              $count = $count + 1;
+            }
+
+            $repQ = array();
+            $count = 0;
+            $res = mysqli_query($link, "SELECT * FROM workouts WHERE exercise = $exercise");
+            while ($row = mysqli_fetch_array($res))
+            {
+              $repQ[$count]["label"] = $row["date"];
+              $repQ[$count]["y"] = $row["reps"];
+              $count = $count + 1;
+            }
+
+            $setsQ = array();
+            $count = 0;
+            $res = mysqli_query($link, "SELECT * FROM workouts WHERE exercise = $exercise");
+            while ($row = mysqli_fetch_array($res))
+            {
+              $setsQ[$count]["label"] = $row["date"];
+              $setsQ[$count]["y"] = $row["sets"];
+              $count = $count + 1;
+            }
+
+            $totalQ = array();
+            $count = 0;
+            $res = mysqli_query($link, "SELECT * FROM workouts WHERE exercise = $exercise");
+            while ($row = mysqli_fetch_array($res))
+            {
+              $totalQ[$count]["label"] = $row["date"];
+              $currTotal = $row["reps"] * $row["sets"] * $row["weight"];
+              $totalQ[$count]["y"] = (string) $currTotal;
+              $count = $count + 1;
+            }
+          ?>
+        </div>
         <script>
           window.onload = function () {
           
           let temp = document.getElementById("workoutType");
-          var chart = new CanvasJS.Chart("chartContainer", {
+          var chart1 = new CanvasJS.Chart("chartContainer1", {
             animationEnabled: true,
             exportEnabled: true,
             theme: "light1", // "light1", "light2", "dark1", "dark2"
+            backgroundColor: "transparent",
+            exportEnabled: false,
+            menu: { enabled: false }, // Disable the menu
             title:{
-              text: temp.options[temp.selectedIndex].text
+              text: temp.value,
+              fontColor: "white"
+            },
+            axisX:{
+              labelAutoFit: true
             },
             axisY:{
               includeZero: true
@@ -114,16 +152,99 @@
               //indexLabel: "{y}", //Shows y value on all Data Points
               indexLabelFontColor: "#5A5757",
               indexLabelPlacement: "outside",   
-              dataPoints: <?php echo json_encode($test, JSON_NUMERIC_CHECK); ?>
+              dataPoints: <?php echo json_encode($weightQ, JSON_NUMERIC_CHECK); ?>
             }]
           });
-          chart.render();
-              
+          chart1.render();
+          
+          var chart2 = new CanvasJS.Chart("chartContainer2", {
+            animationEnabled: true,
+            exportEnabled: true,
+            theme: "light1", // "light1", "light2", "dark1", "dark2"
+            backgroundColor: "transparent",
+            exportEnabled: false,
+            menu: { enabled: false }, // Disable the menu
+            title:{
+              text: temp.options[temp.selectedIndex].text,
+              fontColor: "white"
+            },
+            axisX:{
+              labelAutoFit: true
+            },
+            axisY:{
+              includeZero: true
+            },
+            data: [{
+              type: "line", //change type to bar, line, area, pie, etc
+              //indexLabel: "{y}", //Shows y value on all Data Points
+              indexLabelFontColor: "#5A5757",
+              indexLabelPlacement: "outside",   
+              dataPoints: <?php echo json_encode($repQ, JSON_NUMERIC_CHECK); ?>
+            }]
+          });
+          chart2.render();
+
+          var chart3 = new CanvasJS.Chart("chartContainer3", {
+            animationEnabled: true,
+            exportEnabled: true,
+            theme: "light1", // "light1", "light2", "dark1", "dark2"
+            backgroundColor: "transparent",
+            exportEnabled: false,
+            menu: { enabled: false }, // Disable the menu
+            title:{
+              text: temp.options[temp.selectedIndex].text,
+              fontColor: "white"
+            },
+            axisX:{
+              labelAutoFit: true
+            },
+            axisY:{
+              includeZero: true
+            },
+            data: [{
+              type: "line", //change type to bar, line, area, pie, etc
+              //indexLabel: "{y}", //Shows y value on all Data Points
+              indexLabelFontColor: "#5A5757",
+              indexLabelPlacement: "outside",   
+              dataPoints: <?php echo json_encode($setsQ, JSON_NUMERIC_CHECK); ?>
+            }]
+          });
+          chart3.render();
+
+          var chart4 = new CanvasJS.Chart("chartContainer4", {
+            animationEnabled: true,
+            exportEnabled: true,
+            theme: "light1", // "light1", "light2", "dark1", "dark2"
+            backgroundColor: "transparent",
+            exportEnabled: false,
+            menu: { enabled: false }, // Disable the menu
+            title:{
+              text: temp.options[temp.selectedIndex].text,
+              fontColor: "white"
+            },
+            axisX:{
+              labelAutoFit: true
+            },
+            axisY:{
+              includeZero: true
+            },
+            data: [{
+              type: "line", //change type to bar, line, area, pie, etc
+              //indexLabel: "{y}", //Shows y value on all Data Points
+              indexLabelFontColor: "#5A5757",
+              indexLabelPlacement: "outside",   
+              dataPoints: <?php echo json_encode($totalQ, JSON_NUMERIC_CHECK); ?>
+            }]
+          });
+          chart4.render();
           }
         </script>
         <div>
           <body>
-            <div id="chartContainer" style="height: 370px; width: 100%;"></div>
+            <div id="chartContainer1" style="height: 300px; width: 49.857%; display: inline-block;"></div>
+            <div id="chartContainer2" style="height: 300px; width: 49.857%; display: inline-block;"></div><br/>
+            <div id="chartContainer3" style="height: 300px; width: 49.857%; display: inline-block;"></div>
+            <div id="chartContainer4" style="height: 300px; width: 49.857%; display: inline-block;"></div>
             <script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
           </body>
         </div>
