@@ -6,34 +6,28 @@
     <meta name="keywords" content="HTML, CSS" />
     <meta name="description" content="..." />
     <title>Abraham Kwok</title>
-    <link rel="stylesheet" type="text/css" href="main.css" />
+    <link rel="stylesheet" type="text/css" href="current.css" />
+    <script src="main.js"></script>
   </head>
 
   <body>
+    <div id="toolbar">
+      <div id="about_me">
+          <a href="about.php">About Me</a>
+      </div>
+    </div>
+  
     <div class="movement_buttons">
       <h1 id="main_title">My Workout Log</h1>
-      <a href="#Goals">Current Goals</a>
-      <a href="#Recording">Record Workout</a>
-      <a href="#Progress">Progress</a>
     </div>
 
-    <div>
-      <h2 class="Goals">Current Goals</h2>
-      <p>
-        <li>Dunk A Ball</li>
-        <li>Hit Plate On Overhead Press</li>
-        <li>Hit Plate On Weighted Pull Ups</li>
-        <li>Hit Plate On Weighted Dips</li>
-      </p>
-    </div>
-
-    <div>
+    <div class = "submission">
       <form id="UpdateWorkout" action="connect.php" method="post">
         <label for="exercise">Exercise</label><br />
         <select id="exercise" name="exercise">
-          <option value="squat" name="exercise">Squat</option>
-          <option value="dumbbell_bench" name="exercise">Dumbbell Bench</option>
-          <option value="weighted_pullups" name="exercise">
+          <option value="Squat" name="exercise">Squat</option>
+          <option value="Dumbbell Bench" name="exercise">Dumbbell Bench</option>
+          <option value="Weighted Pull Ups" name="exercise">
             Weighted Pull Ups
           </option>
         </select>
@@ -59,10 +53,10 @@
       <div class = "exerciseType">
         <form action="index.php" method="post">
           <label for="selectOption">Select A Graph To Look At:</label>
-          <select id="workoutType" name = "workoutType">
-            <option value="'squat'" selected = "selected">Squat</option>
-            <option value="'dumbbell_bench'">Dumbbell Bench</option>
-            <option value="'weighted_pullups'">Weighted Pull Ups</option>
+          <select id="workoutType" name = "workoutType" onchange="changeName()">
+            <option value="'Squat'" selected = "selected">Squat</option>
+            <option value="'Dumbbell Bench'">Dumbbell Bench</option>
+            <option value="'Weighted Pull Ups'">Weighted Pull Ups</option>
           </select>
           <input type="submit" value="Submit">
         </form>
@@ -129,7 +123,7 @@
         <script>
           window.onload = function () {
           
-          let temp = document.getElementById("workoutType");
+          let curr = <?php echo json_encode($_POST['workoutType']); ?>.replace(/'/g, "");
           var chart1 = new CanvasJS.Chart("chartContainer1", {
             animationEnabled: true,
             exportEnabled: true,
@@ -138,19 +132,20 @@
             exportEnabled: false,
             menu: { enabled: false }, // Disable the menu
             title:{
-              text: temp.value,
-              fontColor: "white"
+              fontColor: "white",
+              text: curr + " Weight"
             },
             axisX:{
-              labelAutoFit: true
+              labelAutoFit: true,
+              labelFontColor: "white"
             },
             axisY:{
-              includeZero: true
+              includeZero: true,
+              labelFontColor: "white"
             },
             data: [{
               type: "line", //change type to bar, line, area, pie, etc
-              //indexLabel: "{y}", //Shows y value on all Data Points
-              indexLabelFontColor: "#5A5757",
+              indexLabelFontColor: "#FFFFFF",
               indexLabelPlacement: "outside",   
               dataPoints: <?php echo json_encode($weightQ, JSON_NUMERIC_CHECK); ?>
             }]
@@ -165,19 +160,20 @@
             exportEnabled: false,
             menu: { enabled: false }, // Disable the menu
             title:{
-              text: temp.options[temp.selectedIndex].text,
+              text: curr + " Reps",
               fontColor: "white"
             },
             axisX:{
-              labelAutoFit: true
+              labelAutoFit: true,
+              labelFontColor: "white"
             },
             axisY:{
-              includeZero: true
+              includeZero: true,
+              labelFontColor: "white"
             },
             data: [{
               type: "line", //change type to bar, line, area, pie, etc
-              //indexLabel: "{y}", //Shows y value on all Data Points
-              indexLabelFontColor: "#5A5757",
+              indexLabelFontColor: "#FFFFFF",
               indexLabelPlacement: "outside",   
               dataPoints: <?php echo json_encode($repQ, JSON_NUMERIC_CHECK); ?>
             }]
@@ -192,19 +188,20 @@
             exportEnabled: false,
             menu: { enabled: false }, // Disable the menu
             title:{
-              text: temp.options[temp.selectedIndex].text,
+              text: curr + " Sets",
               fontColor: "white"
             },
             axisX:{
-              labelAutoFit: true
+              labelAutoFit: true,
+              labelFontColor: "white"
             },
             axisY:{
-              includeZero: true
+              includeZero: true,
+              labelFontColor: "white"
             },
             data: [{
               type: "line", //change type to bar, line, area, pie, etc
-              //indexLabel: "{y}", //Shows y value on all Data Points
-              indexLabelFontColor: "#5A5757",
+              indexLabelFontColor: "#FFFFFF",
               indexLabelPlacement: "outside",   
               dataPoints: <?php echo json_encode($setsQ, JSON_NUMERIC_CHECK); ?>
             }]
@@ -219,19 +216,20 @@
             exportEnabled: false,
             menu: { enabled: false }, // Disable the menu
             title:{
-              text: temp.options[temp.selectedIndex].text,
+              text: curr + " Total Weight",
               fontColor: "white"
             },
             axisX:{
-              labelAutoFit: true
+              labelAutoFit: true,
+              labelFontColor: "white"
             },
             axisY:{
-              includeZero: true
+              includeZero: true,
+              labelFontColor: "white"
             },
             data: [{
               type: "line", //change type to bar, line, area, pie, etc
-              //indexLabel: "{y}", //Shows y value on all Data Points
-              indexLabelFontColor: "#5A5757",
+              indexLabelFontColor: "#FFFFFF",
               indexLabelPlacement: "outside",   
               dataPoints: <?php echo json_encode($totalQ, JSON_NUMERIC_CHECK); ?>
             }]
@@ -241,45 +239,15 @@
         </script>
         <div>
           <body>
-            <div id="chartContainer1" style="height: 300px; width: 49.857%; display: inline-block;"></div>
-            <div id="chartContainer2" style="height: 300px; width: 49.857%; display: inline-block;"></div><br/>
-            <div id="chartContainer3" style="height: 300px; width: 49.857%; display: inline-block;"></div>
-            <div id="chartContainer4" style="height: 300px; width: 49.857%; display: inline-block;"></div>
+            <div id="chartContainer1" class = "chartContainer" style="height: 300px; width: 49.857%; display: inline-block;"></div>
+            <div id="chartContainer2" class = "chartContainer" style="height: 300px; width: 49.857%; display: inline-block;"></div><br/>
+            <div id="chartContainer3" class = "chartContainer" style="height: 300px; width: 49.857%; display: inline-block;"></div>
+            <div id="chartContainer4" class = "chartContainer" style="height: 300px; width: 49.857%; display: inline-block;"></div>
             <script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
           </body>
         </div>
       
         </div>
     </div>
-    
-    <!-- <div id="graphs">
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-      <script>
-
-        $(document).ready(function() {
-          $("#workoutType").on('change', function() {
-            $(".data").hide();
-            $("#" + $(this).val()).fadeIn(700);
-          }).change();
-        })
-      </script>
-    </div> -->
-
-    <div>
-      <h2 class="Progress">Progress</h2>
-    </div>
-
-    <a href="company/about.html">About Me</a>
-    <a href="images/spiderman.jpg">My photo</a>
-    <a href="#section-css">css</a>
-    <a href="https://google.com" target="_blank">Google</a>
-    <a href="mailto:abrahamkwok628@gmail.com">Email Me</a>
-    <p class="htmlpara">
-      Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quis mollitia a
-    </p>
-    <img src="images/spiderman.jpg" alt="yes" />
-    <h2 id="section-css">css</h2>
-    <a href="#">Jump to top</a>
-    <script src="main.js"></script>
   </body>
 </html>

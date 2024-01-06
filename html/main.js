@@ -1,3 +1,5 @@
+let workoutName = "";
+
 function ClearFields() {
 
   document.getElementById("exercise").value = "";
@@ -6,8 +8,11 @@ function ClearFields() {
   document.getElementById("reps").value = "";
 }
 
-function getWorkout() {
-    selectElement = document.querySelector('workoutType');
-    output = selectElement.value;
-    document.querySelector('.output').textContent = output;
+function changeName() {
+  var sel = document.getElementById("workoutType");
+  workoutName = sel.options[sel.selectedIndex].value;
+}
+
+function getCurrName() {
+  return workoutName;
 }

@@ -27,7 +27,7 @@ body {
     text-align: left;
     display: inline;
 
-    color: black;
+    color: white;
 
     opacity: 1;
 	animation-name: fadeInLeft;
@@ -65,4 +65,12 @@ img {
 .movement {
     font-family: "Times New Roman", Times, serif;
     color: green;
+}
+
+.chartContainer{
+    width:100%;
+    border: 10px solid #FFFFFF;
+    box-sizing: border-box;
+    float:left;
+    height:10000px;
 }

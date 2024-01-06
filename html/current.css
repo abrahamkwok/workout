@@ -1,0 +1,88 @@
+@keyframes fadeInLeft {
+    0% {
+        opacity: 0;
+        transform: translateX(-30px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+body {
+    background-color: #282c34;
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+}
+
+#main_title {
+    font-size: 100px;
+    margin: 50px auto;
+    padding: 10px;
+    text-align: center;
+    color: white;
+    opacity: 1;
+    animation: fadeInLeft 1s ease-in;
+}
+
+.htmlpara {
+    color: white;
+}
+
+img {
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+}
+
+.chartContainer {
+    width: 10%;
+    border: 3px solid #545259;
+    box-sizing: border-box;
+    float: left;
+    height: 100px;
+}
+
+.Goals, .current_goals {
+    text-align: left;
+    color: white;
+    margin-top: 0px;
+    padding-top: 0px;
+    margin-left: 20px;
+    clear: both;
+}
+
+.submission, .menu {
+    color: white;
+    display: inline-block;
+    margin: 10px; /* Adjust the margin as needed */
+    padding: 10px; /* Adjust the padding as needed */
+    border: 2px solid white; /* Add a white border */
+}
+
+#exercise {
+    display: inline-block;
+}
+#toolbar {
+    background-color: #282c34;
+    padding: 10px;
+    text-align: right;
+    border-bottom: 2px solid white; 
+}
+
+#about_me {
+    display: inline-block;
+    margin-right: 50px;
+}
+
+#about_me a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+#about_me a:hover {
+    text-decoration: underline;
+}
