@@ -12,8 +12,14 @@
 
   <body>
     <div id="toolbar">
+      <div id="title">
+        <a href="https://github.com/abrahamkwok">Workout Log</a>
+      </div>
+      <div id="main">
+        <a href="index.php">Main</a>
+      </div>
       <div id="about_me">
-          <a href="about.php">About Me</a>
+          <a href="about.php">Goals</a>
       </div>
     </div>
   
@@ -21,9 +27,18 @@
       <h1 id="main_title">My Workout Log</h1>
     </div>
 
+    <div id = "description">
+      <p>
+        Input the exercise, weight, reps, <br>
+        and sets to see your progress
+      </p>
+    </div>
+
     <div class = "submission">
       <form id="UpdateWorkout" action="connect.php" method="post">
-        <label for="exercise">Exercise</label><br />
+        <div id = "exercise_button">
+          <label for="exercise">Exercise</label><br />
+        </div>
         <select id="exercise" name="exercise">
           <option value="Squat" name="exercise">Squat</option>
           <option value="Dumbbell Bench" name="exercise">Dumbbell Bench</option>
@@ -53,7 +68,7 @@
       <div class = "exerciseType">
         <form action="index.php" method="post">
           <label for="selectOption">Select A Graph To Look At:</label>
-          <select id="workoutType" name = "workoutType" onchange="changeName()">
+          <select id="workoutType" name = "workoutType">
             <option value="'Squat'" selected = "selected">Squat</option>
             <option value="'Dumbbell Bench'">Dumbbell Bench</option>
             <option value="'Weighted Pull Ups'">Weighted Pull Ups</option>
