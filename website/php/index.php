@@ -6,7 +6,7 @@
     <meta name="keywords" content="HTML, CSS" />
     <meta name="description" content="..." />
     <title>Abraham Kwok</title>
-    <link rel="stylesheet" type="text/css" href="current.css" />
+    <link rel="stylesheet" type="text/css" href="styles.css" />
     <script src="main.js"></script>
   </head>
 
